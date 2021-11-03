@@ -2,6 +2,8 @@ from configparser import ConfigParser
 
 from instaloader.instaloader import Instaloader, Profile
 
+version: str = '1.0.0'
+
 config_parser: ConfigParser = ConfigParser()
 config_parser.read('config.ini')
 
