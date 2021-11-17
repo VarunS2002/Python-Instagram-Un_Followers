@@ -12,17 +12,21 @@ username: str = config_parser.get('main', 'username')
 username_not_set: bool = compare_digest(username, 'testusername')
 if username_not_set:
     username = input('Enter your username: ')
+else:
+    username = eval(username).decode('utf-16')
 
 password: str = config_parser.get('main', 'password')
 password_not_set: bool = compare_digest(password, 'testpassword')
 if password_not_set:
     password = input('Enter your password: ')
+else:
+    password = eval(password).decode('utf-16')
 
 if username_not_set or password_not_set:
     print('Save Username/Password in config.ini? [y/n]')
     if input().lower() == 'y':
-        config_parser.set('main', 'username', username)
-        config_parser.set('main', 'password', password)
+        config_parser.set('main', 'username', str(username.encode('utf-16')))
+        config_parser.set('main', 'password', str(password.encode('utf-16')))
         with open('config.ini', 'w') as config:
             config_parser.write(config)
         print('Username/Password saved in config.ini')
