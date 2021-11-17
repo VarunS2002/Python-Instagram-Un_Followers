@@ -1,4 +1,5 @@
 from configparser import ConfigParser
+from secrets import compare_digest
 
 from instaloader.instaloader import Instaloader, Profile
 
@@ -8,7 +9,23 @@ config_parser: ConfigParser = ConfigParser()
 config_parser.read('config.ini')
 
 username: str = config_parser.get('main', 'username')
+username_not_set: bool = compare_digest(username, 'testusername')
+if username_not_set:
+    username = input('Enter your username: ')
+
 password: str = config_parser.get('main', 'password')
+password_not_set: bool = compare_digest(password, 'testpassword')
+if password_not_set:
+    password = input('Enter your password: ')
+
+if username_not_set or password_not_set:
+    print('Save Username/Password in config.ini? [y/n]')
+    if input().lower() == 'y':
+        config_parser.set('main', 'username', username)
+        config_parser.set('main', 'password', password)
+        with open('config.ini', 'w') as config:
+            config_parser.write(config)
+        print('Username/Password saved in config.ini')
 
 print('Attempting to log in')
 loader: Instaloader = Instaloader()
