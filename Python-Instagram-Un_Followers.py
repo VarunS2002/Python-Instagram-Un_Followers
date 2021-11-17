@@ -18,27 +18,30 @@ follower_list: list[str] = [follower.username for follower in profile.get_follow
 following_list: list[str] = [followee.username for followee in profile.get_followees()]
 unfollower_list: list[str] = []
 
+include_exceptions: bool = config_parser.getboolean('main', 'include_exceptions')
 exception_list: list[str] = []
-try:
-    exception_list = open('exceptions.txt', 'r').read().split('\n')
-    while '' in exception_list:
-        exception_list.remove('')
-except FileNotFoundError:
-    pass
+if not include_exceptions:
+    try:
+        exception_list = open('exceptions.txt', 'r').read().split('\n')
+        print('Found exceptions.txt')
+        while '' in exception_list:
+            exception_list.remove('')
+    except FileNotFoundError:
+        print('No exceptions.txt file found')
+        include_exceptions = True
+        pass
 
-ignore_exceptions: bool = config_parser.getboolean('main', 'ignore_exceptions')
+print(f'Exceptions will be {"ex" if not include_exceptions else "in"}cluded')
 
 for followee in following_list:
     if followee not in follower_list:
-        if not ignore_exceptions:
+        if not include_exceptions:
             if followee not in exception_list:
                 unfollower_list.append(followee)
         else:
             unfollower_list.append(followee)
 
-print(f'Unfollowers (with{"out" if not ignore_exceptions else ""} exceptions):')
-if len(unfollower_list) == 0:
-    print('There are no unfollowers')
-
+print(f"\nUsers who don't follow you back ({'ex' if not include_exceptions else 'in'}cluding exceptions): "
+      f"{len(unfollower_list)}")
 for unfollower in unfollower_list:
     print(unfollower)
