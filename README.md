@@ -6,18 +6,19 @@ Simple python program to get the list of users on Instagram who don't follow you
 
 ## Usage:
 
-1. Change `testusername` in `config.ini` to your own username
+1. Run the program
 
-2. Change `testpassword` in `config.ini` to your own password
+2. Enter your Instagram username and password
 
-3. Add the usernames of accounts that you want to be excluded (e.g., meme pages, celebrities) in `exceptions.txt`
+3. You will be prompted to save your username and password in `config.ini` to prevent asking for them again. Do not
+   directly enter your username and password in `config.ini` (Optional)
+
+4. Add the usernames of accounts that you want to be excluded (e.g., meme pages, celebrities) in `exceptions.txt`
    separated by newline (Optional)
 
-4. You can set `include_exceptions` to `True` or `False` in `config.ini`. Set to `False` by default (Optional)
+5. You can set `include_exceptions` to `True` or `False` in `config.ini`. Set to `False` by default (Optional)
 
-5. You can set `show_who_you_do_not_follow` to `True` or `False` in `config.ini`. Set to `True` by default (Optional)
-
-6. Run the program
+6. You can set `show_who_you_do_not_follow` to `True` or `False` in `config.ini`. Set to `True` by default (Optional)
 
 ## Dependencies:
 
