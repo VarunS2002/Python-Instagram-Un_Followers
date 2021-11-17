@@ -10,10 +10,14 @@ config_parser.read('config.ini')
 username: str = config_parser.get('main', 'username')
 password: str = config_parser.get('main', 'password')
 
+print('Attempting to log in')
 loader: Instaloader = Instaloader()
 loader.login(username, password)
+print('Logged in successfully')
+print('Retrieving profile information')
 profile: Profile = Profile.from_username(loader.context, username)
 
+print('Retrieving following and follower list\n')
 follower_list: list[str] = [follower.username for follower in profile.get_followers()]
 following_list: list[str] = [followee.username for followee in profile.get_followees()]
 print('Followers:', len(follower_list))
