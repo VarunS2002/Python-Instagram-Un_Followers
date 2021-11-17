@@ -16,6 +16,8 @@ profile: Profile = Profile.from_username(loader.context, username)
 
 follower_list: list[str] = [follower.username for follower in profile.get_followers()]
 following_list: list[str] = [followee.username for followee in profile.get_followees()]
+print('Followers:', len(follower_list))
+print('Following:', len(following_list))
 unfollower_list: list[str] = []
 
 include_exceptions: bool = config_parser.getboolean('main', 'include_exceptions')
