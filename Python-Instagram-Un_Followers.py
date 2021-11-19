@@ -57,37 +57,40 @@ if show_follower_following_count:
 
 unfollower_list: list[str] = []
 
+show_who_do_not_follow_you: bool = config_parser.getboolean('settings', 'show_who_do_not_follow_you')
+verbose(f"\nUsers who don't follow you back will be {'ex' if not show_who_do_not_follow_you else 'in'}cluded")
 show_who_you_do_not_follow: bool = config_parser.getboolean('settings', 'show_who_you_do_not_follow')
 verbose(f"\nUsers who you don't follow back will be {'ex' if not show_who_you_do_not_follow else 'in'}cluded")
 unfollowing_list: list[str] = []
 
-include_exceptions: bool = config_parser.getboolean('settings', 'include_exceptions')
-exception_list: list[str] = []
-if not include_exceptions:
-    try:
-        exception_list = open('exceptions.txt', 'r').read().split('\n')
-        verbose('Found exceptions.txt')
-        while '' in exception_list:
-            exception_list.remove('')
-    except FileNotFoundError:
-        verbose('No exceptions.txt file found')
-        include_exceptions = True
-        pass
+if show_who_do_not_follow_you:
+    include_exceptions: bool = config_parser.getboolean('settings', 'include_exceptions')
+    exception_list: list[str] = []
+    if not include_exceptions:
+        try:
+            exception_list = open('exceptions.txt', 'r').read().split('\n')
+            verbose('Found exceptions.txt')
+            while '' in exception_list:
+                exception_list.remove('')
+        except FileNotFoundError:
+            verbose('No exceptions.txt file found')
+            include_exceptions = True
+            pass
 
-verbose(f'Exceptions will be {"ex" if not include_exceptions else "in"}cluded')
+    verbose(f'Exceptions will be {"ex" if not include_exceptions else "in"}cluded')
 
-for followee in following_list:
-    if followee not in follower_list:
-        if not include_exceptions:
-            if followee not in exception_list:
+    for followee in following_list:
+        if followee not in follower_list:
+            if not include_exceptions:
+                if followee not in exception_list:
+                    unfollower_list.append(followee)
+            else:
                 unfollower_list.append(followee)
-        else:
-            unfollower_list.append(followee)
 
-print(f"\nUsers who don't follow you back ({'ex' if not include_exceptions else 'in'}cluding exceptions): "
-      f"{len(unfollower_list)}")
-for unfollower in unfollower_list:
-    print(unfollower)
+    print(f"\nUsers who don't follow you back ({'ex' if not include_exceptions else 'in'}cluding exceptions): "
+          f"{len(unfollower_list)}")
+    for unfollower in unfollower_list:
+        print(unfollower)
 
 if show_who_you_do_not_follow:
     for follower in follower_list:
