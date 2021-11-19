@@ -100,3 +100,14 @@ if show_who_you_do_not_follow:
     print(f"\nUsers who you don't follow back: {len(unfollowing_list)}")
     for followee in unfollowing_list:
         print(followee)
+
+ask_to_add_to_exceptions: bool = config_parser.getboolean('settings', 'ask_to_add_to_exceptions')
+# noinspection PyUnboundLocalVariable
+if show_who_do_not_follow_you and ask_to_add_to_exceptions and not include_exceptions and len(unfollower_list) > 0:
+    print('\nAdd all users who don\'t follow you back to exceptions.txt? [y/n]')
+    add_to_exceptions: bool = True if input().lower() == 'y' else False
+    if add_to_exceptions:
+        with open('exceptions.txt', 'a+') as exceptions:
+            for unfollower in unfollower_list:
+                exceptions.write(f'{unfollower}\n')
+        verbose('Added all users who don\'t follow you back to exceptions.txt')
