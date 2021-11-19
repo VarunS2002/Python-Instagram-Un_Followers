@@ -41,8 +41,12 @@ profile: Profile = Profile.from_username(loader.context, username)
 print('Retrieving following and follower list\n')
 follower_list: list[str] = [follower.username for follower in profile.get_followers()]
 following_list: list[str] = [followee.username for followee in profile.get_followees()]
-print('Followers:', len(follower_list))
-print('Following:', len(following_list))
+
+show_follower_following_count: bool = config_parser.getboolean('settings', 'show_follower_following_count')
+if show_follower_following_count:
+    print('Followers:', len(follower_list))
+    print('Following:', len(following_list))
+
 unfollower_list: list[str] = []
 
 show_who_you_do_not_follow: bool = config_parser.getboolean('settings', 'show_who_you_do_not_follow')
