@@ -8,14 +8,14 @@ version: str = '2.0.0'
 config_parser: ConfigParser = ConfigParser()
 config_parser.read('config.ini')
 
-username: str = config_parser.get('main', 'username')
+username: str = config_parser.get('credentials', 'username')
 username_not_set: bool = compare_digest(username, 'testusername')
 if username_not_set:
     username = input('Enter your username: ')
 else:
     username = eval(username).decode('utf-16')
 
-password: str = config_parser.get('main', 'password')
+password: str = config_parser.get('credentials', 'password')
 password_not_set: bool = compare_digest(password, 'testpassword')
 if password_not_set:
     password = input('Enter your password: ')
@@ -25,8 +25,8 @@ else:
 if username_not_set or password_not_set:
     print('Save Username/Password in config.ini? [y/n]')
     if input().lower() == 'y':
-        config_parser.set('main', 'username', str(username.encode('utf-16')))
-        config_parser.set('main', 'password', str(password.encode('utf-16')))
+        config_parser.set('credentials', 'username', str(username.encode('utf-16')))
+        config_parser.set('credentials', 'password', str(password.encode('utf-16')))
         with open('config.ini', 'w') as config:
             config_parser.write(config)
         print('Username/Password saved in config.ini')
@@ -45,11 +45,11 @@ print('Followers:', len(follower_list))
 print('Following:', len(following_list))
 unfollower_list: list[str] = []
 
-show_who_you_do_not_follow: bool = config_parser.getboolean('main', 'show_who_you_do_not_follow')
+show_who_you_do_not_follow: bool = config_parser.getboolean('settings', 'show_who_you_do_not_follow')
 print(f"\nUsers who you don't follow back will be {'ex' if not show_who_you_do_not_follow else 'in'}cluded")
 unfollowing_list: list[str] = []
 
-include_exceptions: bool = config_parser.getboolean('main', 'include_exceptions')
+include_exceptions: bool = config_parser.getboolean('settings', 'include_exceptions')
 exception_list: list[str] = []
 if not include_exceptions:
     try:
