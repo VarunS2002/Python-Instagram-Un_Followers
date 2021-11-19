@@ -31,14 +31,22 @@ if username_not_set or password_not_set:
             config_parser.write(config)
         print('Username/Password saved in config.ini')
 
-print('Attempting to log in')
+show_verbose_messages: bool = config_parser.getboolean('settings', 'show_verbose_messages')
+
+
+def verbose(message: str) -> None:
+    if show_verbose_messages:
+        print(message)
+
+
+verbose('Attempting to log in')
 loader: Instaloader = Instaloader()
 loader.login(username, password)
-print('Logged in successfully')
-print('Retrieving profile information')
+verbose('Logged in successfully')
+verbose('Retrieving profile information')
 profile: Profile = Profile.from_username(loader.context, username)
 
-print('Retrieving following and follower list\n')
+verbose('Retrieving following and follower list\n')
 follower_list: list[str] = [follower.username for follower in profile.get_followers()]
 following_list: list[str] = [followee.username for followee in profile.get_followees()]
 
@@ -50,7 +58,7 @@ if show_follower_following_count:
 unfollower_list: list[str] = []
 
 show_who_you_do_not_follow: bool = config_parser.getboolean('settings', 'show_who_you_do_not_follow')
-print(f"\nUsers who you don't follow back will be {'ex' if not show_who_you_do_not_follow else 'in'}cluded")
+verbose(f"\nUsers who you don't follow back will be {'ex' if not show_who_you_do_not_follow else 'in'}cluded")
 unfollowing_list: list[str] = []
 
 include_exceptions: bool = config_parser.getboolean('settings', 'include_exceptions')
@@ -58,15 +66,15 @@ exception_list: list[str] = []
 if not include_exceptions:
     try:
         exception_list = open('exceptions.txt', 'r').read().split('\n')
-        print('Found exceptions.txt')
+        verbose('Found exceptions.txt')
         while '' in exception_list:
             exception_list.remove('')
     except FileNotFoundError:
-        print('No exceptions.txt file found')
+        verbose('No exceptions.txt file found')
         include_exceptions = True
         pass
 
-print(f'Exceptions will be {"ex" if not include_exceptions else "in"}cluded')
+verbose(f'Exceptions will be {"ex" if not include_exceptions else "in"}cluded')
 
 for followee in following_list:
     if followee not in follower_list:
