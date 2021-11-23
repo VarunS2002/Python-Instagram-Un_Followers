@@ -13,12 +13,24 @@ Simple python program to get the list of users on Instagram who don't follow you
 3. You will be prompted to save your username and password in `config.ini` to prevent asking for them again. Do not
    directly enter your username and password in `config.ini` (Optional)
 
-4. Add the usernames of accounts that you want to be excluded (e.g., meme pages, celebrities) in `exceptions.txt`
-   separated by newline (Optional)
+## Features:
 
-5. You can set `include_exceptions` to `True` or `False` in `config.ini`. Set to `False` by default (Optional)
+1. Display usernames of accounts that do not follow you back
+    - You can hide this by setting `show_who_do_not_follow_you` to False in `config.ini`
 
-6. You can set `show_who_you_do_not_follow` to `True` or `False` in `config.ini`. Set to `True` by default (Optional)
+2. Manually exclude selected accounts from list of users who do not follow you back
+    - Add the usernames of accounts that you want to be excluded in `exceptions.txt` separated by newline
+    - Usernames in the file will not be included when `include_exceptions`  is set to `False` in `config.ini`
+    - If there are users that do no follow you back, you will be prompted to add all of them automatically
+      to `exceptions.txt`. You can disable this prompt by setting `ask_to_add_to_exceptions` to False in `config.ini`
+
+3. Display usernames of accounts that you do not follow back
+    - You can hide this by setting `show_who_you_do_not_follow` to False in `config.ini`
+
+4. Display follower and following count of the user
+    - You can hide this by setting `show_follower_following_count` to False in `config.ini`
+
+5. You can disable verbose messages by setting `show_verbose_messages` to `False` in `config.ini`
 
 ## Dependencies:
 
