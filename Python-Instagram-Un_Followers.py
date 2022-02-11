@@ -110,4 +110,12 @@ if show_who_do_not_follow_you and ask_to_add_to_exceptions and not include_excep
         with open('exceptions.txt', 'a+') as exceptions:
             for unfollower in unfollower_list:
                 exceptions.write(f'{unfollower}\n')
-        verbose('Added all users who don\'t follow you back to exceptions.txt')
+    else:
+        print('\nAdd selected users who don\'t follow you back to exceptions.txt? [y/n]')
+        add_selected_to_exceptions: bool = True if input().lower() == 'y' else False
+        if add_selected_to_exceptions:
+            with open('exceptions.txt', 'a+') as exceptions:
+                for unfollower in unfollower_list:
+                    print(f'Add {unfollower} to exceptions.txt? [y/n]')
+                    if input().lower() == 'y':
+                        exceptions.write(f'{unfollower}\n')
