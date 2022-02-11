@@ -3,7 +3,7 @@ from secrets import compare_digest
 
 from instaloader.instaloader import Instaloader, Profile
 
-version: str = '2.5.0'
+version: str = '2.6.0'
 
 config_parser: ConfigParser = ConfigParser()
 config_parser.read('config.ini')
