@@ -21,8 +21,11 @@ Simple python program to get the list of users on Instagram who don't follow you
 2. Manually exclude selected accounts from list of users who do not follow you back
     - Add the usernames of accounts that you want to be excluded in `exceptions.txt` separated by newline
     - Usernames in the file will not be included when `include_exceptions`  is set to `False` in `config.ini`
-    - If there are users that do no follow you back, you will be prompted to add all of them automatically
-      to `exceptions.txt`. You can disable this prompt by setting `ask_to_add_to_exceptions` to False in `config.ini`
+    - If there are users that do no follow you back, you will be prompted to add all of them at once or one by one
+      automatically to `exceptions.txt`. You can disable this prompt by setting `ask_to_add_to_exceptions` to False
+      in `config.ini`
+    - Accounts in `exceptions.txt` will be sorted alphabetically when they are added. You can disable this by setting
+      `sort_exceptions` to False in `config.ini`
 
 3. Display usernames of accounts that you do not follow back
     - You can hide this by setting `show_who_you_do_not_follow` to False in `config.ini`
