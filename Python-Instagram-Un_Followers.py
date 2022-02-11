@@ -119,3 +119,12 @@ if show_who_do_not_follow_you and ask_to_add_to_exceptions and not include_excep
                     print(f'Add {unfollower} to exceptions.txt? [y/n]')
                     if input().lower() == 'y':
                         exceptions.write(f'{unfollower}\n')
+    # noinspection PyUnboundLocalVariable
+    if add_to_exceptions or add_selected_to_exceptions:
+        sort_exceptions: bool = config_parser.getboolean('settings', 'sort_exceptions')
+        if sort_exceptions:
+            with open('exceptions.txt', 'r') as exceptions:
+                accounts_to_sort = exceptions.readlines()
+                accounts_to_sort.sort()
+            with open('exceptions.txt', 'w') as exceptions:
+                exceptions.writelines(accounts_to_sort)
