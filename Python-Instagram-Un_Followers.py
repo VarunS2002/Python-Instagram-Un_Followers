@@ -55,13 +55,22 @@ if show_follower_following_count:
     print('Followers:', len(follower_list))
     print('Following:', len(following_list))
 
-unfollower_list: list[str] = []
-
-show_who_do_not_follow_you: bool = config_parser.getboolean('settings', 'show_who_do_not_follow_you')
-verbose(f"\nUsers who don't follow you back will be {'ex' if not show_who_do_not_follow_you else 'in'}cluded")
 show_who_you_do_not_follow: bool = config_parser.getboolean('settings', 'show_who_you_do_not_follow')
 verbose(f"\nUsers who you don't follow back will be {'ex' if not show_who_you_do_not_follow else 'in'}cluded")
 unfollowing_list: list[str] = []
+
+show_who_do_not_follow_you: bool = config_parser.getboolean('settings', 'show_who_do_not_follow_you')
+verbose(f"\nUsers who don't follow you back will be {'ex' if not show_who_do_not_follow_you else 'in'}cluded")
+unfollower_list: list[str] = []
+
+if show_who_you_do_not_follow:
+    for follower in follower_list:
+        if follower not in following_list:
+            unfollowing_list.append(follower)
+
+    print(f"\nUsers who you don't follow back: {len(unfollowing_list)}")
+    for followee in unfollowing_list:
+        print(followee)
 
 if show_who_do_not_follow_you:
     include_exceptions: bool = config_parser.getboolean('settings', 'include_exceptions')
@@ -91,15 +100,6 @@ if show_who_do_not_follow_you:
           f"{len(unfollower_list)}")
     for unfollower in unfollower_list:
         print(unfollower)
-
-if show_who_you_do_not_follow:
-    for follower in follower_list:
-        if follower not in following_list:
-            unfollowing_list.append(follower)
-
-    print(f"\nUsers who you don't follow back: {len(unfollowing_list)}")
-    for followee in unfollowing_list:
-        print(followee)
 
 ask_to_add_to_exceptions: bool = config_parser.getboolean('settings', 'ask_to_add_to_exceptions')
 # noinspection PyUnboundLocalVariable
