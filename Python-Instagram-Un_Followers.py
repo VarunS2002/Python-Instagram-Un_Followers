@@ -78,7 +78,7 @@ if show_who_do_not_follow_you:
     if not include_exceptions:
         try:
             exception_list = open('exceptions.txt').read().split('\n')
-            verbose('Found exceptions.txt')
+            verbose('\nFound exceptions.txt')
             while '' in exception_list:
                 exception_list.remove('')
         except FileNotFoundError:
