@@ -77,14 +77,13 @@ if show_who_do_not_follow_you:
     exception_list: list[str] = []
     if not include_exceptions:
         try:
-            exception_list = open('exceptions.txt', 'r').read().split('\n')
+            exception_list = open('exceptions.txt').read().split('\n')
             verbose('Found exceptions.txt')
             while '' in exception_list:
                 exception_list.remove('')
         except FileNotFoundError:
             verbose('No exceptions.txt file found')
             include_exceptions = True
-            pass
 
     verbose(f'Exceptions will be {"ex" if not include_exceptions else "in"}cluded')
 
@@ -127,7 +126,7 @@ if show_who_do_not_follow_you and ask_to_add_to_exceptions and not include_excep
     if add_to_exceptions or add_selected_to_exceptions:
         sort_exceptions: bool = config_parser.getboolean('settings', 'sort_exceptions')
         if sort_exceptions:
-            with open('exceptions.txt', 'r') as exceptions:
+            with open('exceptions.txt') as exceptions:
                 accounts_to_sort = exceptions.readlines()
                 accounts_to_sort.sort()
             with open('exceptions.txt', 'w') as exceptions:
