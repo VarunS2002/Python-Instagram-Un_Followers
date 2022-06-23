@@ -24,6 +24,9 @@ Simple python program to get the list of users on Instagram who don't follow you
     - If there are users that do no follow you back, you will be prompted to add all of them at once or one by one
       automatically to `exceptions.txt`. You can disable this prompt by setting `ask_to_add_to_exceptions` to False
       in `config.ini`
+    - Accounts in `exceptions.txt` that you no longer follow will automatically be removed from it. You can disable this
+      by setting
+      `remove_obsolete_exceptions` to False in `config.ini`
     - Accounts in `exceptions.txt` will be sorted alphabetically when they are added. You can disable this by setting
       `sort_exceptions` to False in `config.ini`
 
