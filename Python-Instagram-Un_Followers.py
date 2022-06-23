@@ -101,6 +101,24 @@ if show_who_do_not_follow_you:
         print(unfollower)
 
 ask_to_add_to_exceptions: bool = config_parser.getboolean('settings', 'ask_to_add_to_exceptions')
+
+# noinspection PyUnboundLocalVariable
+if show_who_do_not_follow_you and ask_to_add_to_exceptions and not include_exceptions:
+    remove_obsolete_exceptions: bool = config_parser.getboolean('settings', 'remove_obsolete_exceptions')
+    if remove_obsolete_exceptions:
+        obsolete_accounts_to_remove: list[str] = []
+        # noinspection PyUnboundLocalVariable
+        for account in exception_list:
+            if account not in following_list:
+                obsolete_accounts_to_remove.append(account)
+        with open('exceptions.txt') as exceptions:
+            accounts_to_update = exceptions.readlines()
+            for account in obsolete_accounts_to_remove:
+                accounts_to_update.remove(account + '\n')
+        with open('exceptions.txt', 'w') as exceptions:
+            exceptions.writelines(accounts_to_update)
+        verbose('\nRemoved accounts you no longer follow from exceptions.txt')
+
 # noinspection PyUnboundLocalVariable
 if show_who_do_not_follow_you and ask_to_add_to_exceptions and not include_exceptions and len(unfollower_list) > 0:
     print('\nAdd all users who don\'t follow you back to exceptions.txt? [y/n]')
