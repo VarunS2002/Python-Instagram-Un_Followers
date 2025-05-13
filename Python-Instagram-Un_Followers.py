@@ -1,11 +1,11 @@
-from configparser import ConfigParser
+from configparser import RawConfigParser
 from secrets import compare_digest
 
 from instaloader.instaloader import Instaloader, Profile
 
 version: str = '2.7.1'
 
-config_parser: ConfigParser = ConfigParser()
+config_parser: RawConfigParser = RawConfigParser()
 config_parser.read('config.ini')
 
 username: str = config_parser.get('credentials', 'username')
