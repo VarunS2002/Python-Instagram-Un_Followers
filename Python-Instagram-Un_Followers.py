@@ -1,5 +1,6 @@
 from configparser import RawConfigParser
 from secrets import compare_digest
+from time import sleep
 
 from instaloader.instaloader import Instaloader, Profile
 
@@ -43,11 +44,15 @@ verbose('Attempting to log in')
 loader: Instaloader = Instaloader()
 loader.login(username, password)
 verbose('Logged in successfully')
+sleep(5)
 verbose('Retrieving profile information')
 profile: Profile = Profile.from_username(loader.context, username)
 
-verbose('Retrieving following and follower list\n')
+sleep(5)
+verbose('Retrieving follower list\n')
 follower_list: list[str] = [follower.username for follower in profile.get_followers()]
+sleep(5)
+verbose('Retrieving following list\n')
 following_list: list[str] = [followee.username for followee in profile.get_followees()]
 
 show_follower_following_count: bool = config_parser.getboolean('settings', 'show_follower_following_count')
