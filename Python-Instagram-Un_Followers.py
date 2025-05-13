@@ -135,8 +135,8 @@ if show_who_do_not_follow_you and ask_to_add_to_exceptions and not include_excep
                         verbose(f'Skipped {unfollower}')
     # noinspection PyUnboundLocalVariable
     if add_to_exceptions or add_selected_to_exceptions:
-        sort_exceptions: bool = config_parser.getboolean('settings', 'sort_exceptions')
-        if sort_exceptions:
+        sort_accounts: bool = config_parser.getboolean('settings', 'sort_accounts')
+        if sort_accounts:
             with open('exceptions.txt') as exceptions:
                 accounts_to_sort = exceptions.readlines()
                 accounts_to_sort.sort()
