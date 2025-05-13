@@ -115,7 +115,7 @@ if show_who_do_not_follow_you and ask_to_add_to_exceptions and not include_excep
 # noinspection PyUnboundLocalVariable
 if show_who_do_not_follow_you and ask_to_add_to_exceptions and not include_exceptions and len(unfollower_list) > 0:
     print('\nAdd all users who don\'t follow you back to exceptions.txt? [y/n]')
-    add_to_exceptions: bool = True if input().lower() == 'y' else False
+    add_to_exceptions: bool = True if input().lower().strip() == 'y' else False
     if add_to_exceptions:
         with open('exceptions.txt', 'a+') as exceptions:
             for unfollower in unfollower_list:
@@ -123,12 +123,12 @@ if show_who_do_not_follow_you and ask_to_add_to_exceptions and not include_excep
         verbose('Added all users who don\'t follow you back to exceptions.txt')
     else:
         print('\nAdd selected users who don\'t follow you back to exceptions.txt? [y/n]')
-        add_selected_to_exceptions: bool = True if input().lower() == 'y' else False
+        add_selected_to_exceptions: bool = True if input().lower().strip() == 'y' else False
         if add_selected_to_exceptions:
             with open('exceptions.txt', 'a+') as exceptions:
                 for unfollower in unfollower_list:
                     print(f'Add {unfollower} to exceptions.txt? [y/n]')
-                    if input().lower() == 'y':
+                    if input().lower().strip() == 'y':
                         exceptions.write(f'{unfollower}\n')
                         verbose(f'Added {unfollower} to exceptions.txt')
                     else:
