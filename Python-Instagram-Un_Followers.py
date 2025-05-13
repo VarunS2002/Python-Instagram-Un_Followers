@@ -1,5 +1,4 @@
 from configparser import RawConfigParser
-from secrets import compare_digest
 from time import sleep
 
 from instaloader.instaloader import Instaloader, Profile
@@ -8,29 +7,6 @@ version: str = '2.7.1'
 
 config_parser: RawConfigParser = RawConfigParser()
 config_parser.read('config.ini')
-
-username: str = config_parser.get('credentials', 'username')
-username_not_set: bool = compare_digest(username, 'testusername')
-if username_not_set:
-    username = input('Enter your username: ')
-else:
-    username = eval(username).decode('utf-16')
-
-password: str = config_parser.get('credentials', 'password')
-password_not_set: bool = compare_digest(password, 'testpassword')
-if password_not_set:
-    password = input('Enter your password: ')
-else:
-    password = eval(password).decode('utf-16')
-
-if username_not_set or password_not_set:
-    print('Save Username/Password in config.ini? [y/n]')
-    if input().lower() == 'y':
-        config_parser.set('credentials', 'username', str(username.encode('utf-16')))
-        config_parser.set('credentials', 'password', str(password.encode('utf-16')))
-        with open('config.ini', 'w') as config:
-            config_parser.write(config)
-        print('Username/Password saved in config.ini')
 
 show_verbose_messages: bool = config_parser.getboolean('settings', 'show_verbose_messages')
 
@@ -42,7 +18,19 @@ def verbose(message: str) -> None:
 
 verbose('Attempting to log in')
 loader: Instaloader = Instaloader()
-loader.login(username, password)
+
+username: str = config_parser.get('credentials', 'username')
+cookie: dict[str:str] = dict()
+for key, value in config_parser.items('cookie'):
+    cookie[key] = value
+
+# noinspection PyProtectedMember
+loader.context._session.cookies.update(cookie)
+context_username = loader.test_login()
+if not context_username:
+    raise SystemExit(f"Not logged in. Are you logged in successfully in browser you got the cookies from?")
+loader.context.username = context_username
+
 verbose('Logged in successfully')
 sleep(5)
 verbose('Retrieving profile information')
