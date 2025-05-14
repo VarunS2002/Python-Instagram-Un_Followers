@@ -113,7 +113,7 @@ if show_who_do_not_follow_you and ask_to_add_to_exceptions and not include_excep
         verbose('\nRemoved accounts you no longer follow from exceptions.txt')
 
 # noinspection PyUnboundLocalVariable
-if show_who_do_not_follow_you and ask_to_add_to_exceptions and not include_exceptions and len(unfollower_list) > 0:
+if show_who_do_not_follow_you and ask_to_add_to_exceptions and len(unfollower_list) > 0:
     print('\nAdd all users who don\'t follow you back to exceptions.txt? [y/n]')
     add_to_exceptions: bool = True if input().lower().strip() == 'y' else False
     if add_to_exceptions:
