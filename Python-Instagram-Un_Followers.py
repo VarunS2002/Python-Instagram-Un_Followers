@@ -48,6 +48,58 @@ if show_follower_following_count:
     print('Followers:', len(follower_list))
     print('Following:', len(following_list))
 
+show_changes_in_followers: bool = config_parser.getboolean('settings', 'show_changes_in_followers')
+verbose(f"\nUsers who followed you and unfollowed you will be {'ex' if not show_changes_in_followers else 'in'}cluded")
+if show_changes_in_followers:
+    try:
+        old_follower_list: list[str] = open('old_followers.txt').read().split('\n')
+        verbose('\nFound old_followers.txt')
+        while '' in old_follower_list:
+            old_follower_list.remove('')
+
+        new_followers: list[str] = [user for user in follower_list if user not in old_follower_list]
+        unfollowers: list[str] = [user for user in old_follower_list if user not in follower_list]
+        print('\nUsers who followed you:', len(new_followers))
+        for follower in new_followers:
+            print(follower)
+        print('\nUsers who unfollowed you:', len(unfollowers))
+        for unfollower in unfollowers:
+            print(unfollower)
+
+    except FileNotFoundError:
+        verbose('\nNo old_followers.txt file found')
+
+    with open('old_followers.txt', 'w') as followers:
+        for follower in follower_list:
+            followers.write(f'{follower}\n')
+    verbose('\nSaved old_followers.txt')
+
+show_changes_in_following: bool = config_parser.getboolean('settings', 'show_changes_in_following')
+verbose(f"\nUsers who you followed and you unfollowed will be {'ex' if not show_changes_in_following else 'in'}cluded")
+if show_changes_in_following:
+    try:
+        old_following_list: list[str] = open('old_following.txt').read().split('\n')
+        verbose('\nFound old_following.txt')
+        while '' in old_following_list:
+            old_following_list.remove('')
+
+        new_following: list[str] = [user for user in following_list if user not in old_following_list]
+        unfollowed: list[str] = [user for user in old_following_list if user not in following_list]
+        print('\nUsers who you followed:', len(new_following))
+        for followee in new_following:
+            print(followee)
+        print('\nUsers who you unfollowed:', len(unfollowed))
+        for unfollowee in unfollowed:
+            print(unfollowee)
+
+    except FileNotFoundError:
+        verbose('\nNo old_following.txt file found')
+
+    with open('old_following.txt', 'w') as following:
+        for followee in following_list:
+            following.write(f'{followee}\n')
+    verbose('\nSaved old_following.txt')
+
 show_who_you_do_not_follow: bool = config_parser.getboolean('settings', 'show_who_you_do_not_follow')
 verbose(f"\nUsers who you don't follow back will be {'ex' if not show_who_you_do_not_follow else 'in'}cluded")
 unfollowing_list: list[str] = []
