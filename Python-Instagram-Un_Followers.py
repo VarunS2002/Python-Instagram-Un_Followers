@@ -16,7 +16,7 @@ def verbose(message: str) -> None:
         print(message)
 
 
-verbose('Attempting to log in')
+verbose('Attempting to log in\n')
 loader: Instaloader = Instaloader()
 
 username: str = config_parser.get('credentials', 'username')
@@ -31,9 +31,9 @@ if not context_username:
     raise SystemExit(f"Not logged in. Are you logged in successfully in browser you got the cookies from?")
 loader.context.username = context_username
 
-verbose('Logged in successfully')
+verbose('Logged in successfully\n')
 sleep(5)
-verbose('Retrieving profile information')
+verbose('Retrieving profile information\n')
 profile: Profile = Profile.from_username(loader.context, username)
 
 sleep(5)
