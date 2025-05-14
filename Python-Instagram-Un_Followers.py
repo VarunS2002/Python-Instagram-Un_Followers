@@ -43,6 +43,12 @@ sleep(5)
 verbose('Retrieving following list\n')
 following_list: list[str] = [followee.username for followee in profile.get_followees()]
 
+sort_accounts: bool = config_parser.getboolean('settings', 'sort_accounts')
+
+if sort_accounts:
+    follower_list.sort()
+    following_list.sort()
+
 show_follower_following_count: bool = config_parser.getboolean('settings', 'show_follower_following_count')
 if show_follower_following_count:
     print('Followers:', len(follower_list))
@@ -59,6 +65,9 @@ if show_changes_in_followers:
 
         new_followers: list[str] = [user for user in follower_list if user not in old_follower_list]
         unfollowers: list[str] = [user for user in old_follower_list if user not in follower_list]
+        if sort_accounts:
+            new_followers.sort()
+            unfollowers.sort()
         print('\nUsers who followed you:', len(new_followers))
         for follower in new_followers:
             print(follower)
@@ -85,6 +94,9 @@ if show_changes_in_following:
 
         new_following: list[str] = [user for user in following_list if user not in old_following_list]
         unfollowed: list[str] = [user for user in old_following_list if user not in following_list]
+        if sort_accounts:
+            new_following.sort()
+            unfollowed.sort()
         print('\nUsers who you followed:', len(new_following))
         for followee in new_following:
             print(followee)
@@ -187,7 +199,6 @@ if show_who_do_not_follow_you and ask_to_add_to_exceptions and len(unfollower_li
                         verbose(f'Skipped {unfollower}')
     # noinspection PyUnboundLocalVariable
     if add_to_exceptions or add_selected_to_exceptions:
-        sort_accounts: bool = config_parser.getboolean('settings', 'sort_accounts')
         if sort_accounts:
             with open('exceptions.txt') as exceptions:
                 accounts_to_sort = exceptions.readlines()
