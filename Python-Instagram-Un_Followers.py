@@ -3,7 +3,7 @@ from time import sleep
 
 from instaloader.instaloader import Instaloader, Profile
 
-version: str = '2.7.1'
+version: str = '3.0.0'
 
 config_parser: RawConfigParser = RawConfigParser()
 config_parser.read('config.ini')
