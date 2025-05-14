@@ -75,10 +75,10 @@ if show_who_do_not_follow_you:
             while '' in exception_list:
                 exception_list.remove('')
         except FileNotFoundError:
-            verbose('No exceptions.txt file found')
+            verbose('\nNo exceptions.txt file found')
             include_exceptions = True
 
-    verbose(f'Exceptions will be {"ex" if not include_exceptions else "in"}cluded')
+    verbose(f'\nExceptions will be {"ex" if not include_exceptions else "in"}cluded')
 
     for followee in following_list:
         if followee not in follower_list:
@@ -120,7 +120,7 @@ if show_who_do_not_follow_you and ask_to_add_to_exceptions and not include_excep
         with open('exceptions.txt', 'a+') as exceptions:
             for unfollower in unfollower_list:
                 exceptions.write(f'{unfollower}\n')
-        verbose('Added all users who don\'t follow you back to exceptions.txt')
+        verbose('\nAdded all users who don\'t follow you back to exceptions.txt')
     else:
         print('\nAdd selected users who don\'t follow you back to exceptions.txt? [y/n]')
         add_selected_to_exceptions: bool = True if input().lower().strip() == 'y' else False
@@ -142,4 +142,4 @@ if show_who_do_not_follow_you and ask_to_add_to_exceptions and not include_excep
                 accounts_to_sort.sort()
             with open('exceptions.txt', 'w') as exceptions:
                 exceptions.writelines(accounts_to_sort)
-            verbose('Sorted exceptions.txt')
+            verbose('\nSorted exceptions.txt')
